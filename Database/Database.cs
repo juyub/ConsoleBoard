@@ -106,6 +106,7 @@ public class Database
     {
         string query = $"SELECT * FROM c_board_test WHERE BoardNo = {boardNo}";
         DataTable dt = ExecuteQuery(query);
+
         if (dt.Rows.Count > 0)
         {
             DataRow row = dt.Rows[0];
