@@ -34,17 +34,7 @@ class Program
                     case 2:
                         Console.Write("Enter BoardNo: ");
                         int boardNo = Convert.ToInt32(Console.ReadLine());
-                        Board board = postService.GetBoard(boardNo);
-
-                        if (board == null)
-                        {
-                            Console.WriteLine("Board not found with the given BoardNo.");
-
-                        }
-                        else
-                        {
-                            view.GetBoard(boardNo);
-                        }
+                        view.GetBoard(boardNo);
                         break;
                     case 3:
                         return;
@@ -61,7 +51,7 @@ class Program
             finally
             {
                 connection.CloseConnection();
-                Console.WriteLine("Connection closed");
+                /*Console.WriteLine("Connection closed");*/
             }
         }
     }
