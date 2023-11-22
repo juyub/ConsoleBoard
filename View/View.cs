@@ -1,4 +1,4 @@
-﻿class View
+class View
 {
     private PostService postService;
 
@@ -42,7 +42,13 @@
 
     public void GetBoard(int boardNo)
     {
-        Board board = postService.GetBoard(boardNo);       
+        Board board = postService.GetBoard(boardNo);
+        if (board == null)
+        {
+            Console.WriteLine("Board not found with the given BoardNo.");
+            Console.Write("\n");
+            return;
+        }
         Console.WriteLine($"No: {board.boardNo}, Title: {board.title}, Content: {board.content}, RegDate: {board.regDate}");
         Console.Write("\n");
 
