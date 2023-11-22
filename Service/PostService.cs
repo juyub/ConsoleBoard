@@ -14,15 +14,7 @@ public class PostService
 
     public Board GetBoard(int boardNo)
     {
-        Board board = _database.GetBoardByNo(boardNo);
-        if (board != null)
-        {
-            return board;
-        }
-        else
-        {
-            throw new Exception("Board not found with the provided boardNo");
-        }
+        return _database.GetBoardByNo(boardNo);
     }
 
     public void CreateBoard(Board board)
