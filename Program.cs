@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 class Program
 {
@@ -7,54 +7,35 @@ class Program
         Connection connection = new Connection();
         Database database = new Database(connection);
         PostService postService = new PostService(database);
+        Controller controller = new Controller(postService);
 
         try
         {
-            connection.OpenConnection();
-            Console.WriteLine("Connected to Oracle Database");
+            /*connection.openConnection();
+            Console.WriteLine("Connected to Oracle Database");*/
 
             while (true)
             {
-                postService.ViewAllPosts();
+                controller.BoardList();
 
-                Console.WriteLine("1. Create Post\n2. View Posts\n3. Update Post\n4. Delete Post\n5. Exit");
+                Console.WriteLine("1. Create Board\n" +
+                                  "2. View Board\n" +
+                                  "3. Exit\n");
                 Console.Write("Select an option: ");
                 int option = Convert.ToInt32(Console.ReadLine());
+                Console.Write("\n");
 
                 switch (option)
                 {
                     case 1:
-                        Post newPost = new Post();
-                        Console.Write("Enter post title: ");
-                        string input = Console.ReadLine();
-                        newPost.Title = input ?? string.Empty;
-                        /*newPost.Title = Console.ReadLine();*/
-                        Console.Write("Enter post content: ");
-                        newPost.Content = Console.ReadLine();
-                        postService.CreatePost(newPost);
-                        Console.WriteLine("Post created successfully");
+                        controller.CreateBoard();
                         break;
                     case 2:
-                        postService.ViewPosts();
+                        Console.Write("Enter BoardNo: ");
+                        int boardNo = Convert.ToInt32(Console.ReadLine());
+                        controller.GetBoard(boardNo);
                         break;
                     case 3:
-                        Post updatedPost = new Post();
-                        Console.Write("Enter post ID to update: ");
-                        updatedPost.Id = Convert.ToInt32(Console.ReadLine());
-                        Console.Write("Enter new title: ");
-                        updatedPost.Title = Console.ReadLine();
-                        Console.Write("Enter new content: ");
-                        updatedPost.Content = Console.ReadLine();
-                        postService.UpdatePost(updatedPost);
-                        Console.WriteLine("Post updated successfully");
-                        break;
-                    case 4:
-                        Console.Write("Enter post ID to delete: ");
-                        int deleteId = Convert.ToInt32(Console.ReadLine());
-                        postService.DeletePost(deleteId);
-                        Console.WriteLine("Post deleted successfully");
-                        break;
-                    case 5:
                         return;
                     default:
                         Console.WriteLine("Invalid option");
@@ -68,7 +49,7 @@ class Program
         }
         finally
         {
-            connection.CloseConnection();
+            connection.closeConnection();
             Console.WriteLine("Connection closed");
         }
     }
