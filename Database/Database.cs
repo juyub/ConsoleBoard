@@ -10,14 +10,14 @@ public class Database
         this.connection = connection;
     }
     
-    /*"non-query" SQL ¹®À» ½ÇÇàÇÏ¸ç,
-    ÀÌ´Â ÀÏ¹İÀûÀ¸·Î µ¥ÀÌÅÍ¸¦ ¹İÈ¯ÇÏÁö ¾Ê´Â SQL ¹®À» ÀÇ¹ÌÇÕ´Ï´Ù.
-    ¿¹¸¦ µé¾î, INSERT, UPDATE, DELETE, CREATE µîÀÇ SQL ¹®ÀÌ ¿©±â¿¡ ÇØ´çÇÕ´Ï´Ù.
-    ÀÌ ¸Ş¼­µå´Â ¿µÇâ¹ŞÀº ÇàÀÇ ¼ö¸¦ ¹İÈ¯*/
-    public void executeNonQuery(string query)
+    /*"non-query" SQL ë¬¸ì„ ì‹¤í–‰í•˜ë©°,
+    ì´ëŠ” ì¼ë°˜ì ìœ¼ë¡œ ë°ì´í„°ë¥¼ ë°˜í™˜í•˜ì§€ ì•ŠëŠ” SQL ë¬¸ì„ ì˜ë¯¸í•©ë‹ˆë‹¤.
+    ì˜ˆë¥¼ ë“¤ì–´, INSERT, UPDATE, DELETE, CREATE ë“±ì˜ SQL ë¬¸ì´ ì—¬ê¸°ì— í•´ë‹¹í•©ë‹ˆë‹¤.
+    ì´ ë©”ì„œë“œëŠ” ì˜í–¥ë°›ì€ í–‰ì˜ ìˆ˜ë¥¼ ë°˜í™˜*/
+    public void ExecuteNonQuery(string query)
     {
-        connection.openConnection();
-        OracleConnection conn = connection.getConnection();
+        connection.OpenConnection();
+        OracleConnection conn = connection.GetConnection();
         if (conn == null)
         {
             Console.WriteLine("Error : syntex error");
@@ -36,19 +36,19 @@ public class Database
         }
         finally
         {
-            connection.closeConnection();
+            connection.CloseConnection();
         }
     }
 
-    /*"query" SQL ¹®À» ½ÇÇàÇÏ¸ç,
-    ÀÌ´Â µ¥ÀÌÅÍ¸¦ ¹İÈ¯ÇÏ´Â SQL ¹®À» ÀÇ¹ÌÇÕ´Ï´Ù.
-    ¿¹¸¦ µé¾î, SELECT ¹®ÀÌ ¿©±â¿¡ ÇØ´çÇÕ´Ï´Ù.
-    ÀÌ ¸Ş¼­µå´Â °á°ú·Î ¹İÈ¯µÈ µ¥ÀÌÅÍ¸¦
-    DataTable °´Ã¼¿¡ ´ã¾Æ ¹İÈ¯*/
-    public DataTable executeQuery(string query)
+    /*"query" SQL ë¬¸ì„ ì‹¤í–‰í•˜ë©°,
+    ì´ëŠ” ë°ì´í„°ë¥¼ ë°˜í™˜í•˜ëŠ” SQL ë¬¸ì„ ì˜ë¯¸í•©ë‹ˆë‹¤.
+    ì˜ˆë¥¼ ë“¤ì–´, SELECT ë¬¸ì´ ì—¬ê¸°ì— í•´ë‹¹í•©ë‹ˆë‹¤.
+    ì´ ë©”ì„œë“œëŠ” ê²°ê³¼ë¡œ ë°˜í™˜ëœ ë°ì´í„°ë¥¼
+    DataTable ê°ì²´ì— ë‹´ì•„ ë°˜í™˜*/
+    public DataTable ExecuteQuery(string query)
     {
-        connection.openConnection();
-        OracleConnection conn = connection.getConnection();
+        connection.OpenConnection();
+        OracleConnection conn = connection.GetConnection();
 
         if (conn == null)
         {
@@ -71,27 +71,27 @@ public class Database
         }
         finally
         {
-            connection.closeConnection();
+            connection.CloseConnection();
         }
 
         return dt;
     }
 
-    public void createBoard(Board board)
+    public void CreateBoard(Board board)
     {
         string query = $"INSERT INTO c_board_test (boardNo, title, content, regDate) " +
                        $"VALUES (c_board_test_seq.NEXTVAL, '{board.title}', '{board.content}', SYSDATE)";
-        executeNonQuery(query);
+        ExecuteNonQuery(query);
     }
 
-    public List<Board> getBoardList()
+    public List<Board> GetBoardList()
     {
         string query = "SELECT * FROM c_board_test";
-        DataTable dt = executeQuery(query);
-        List<Board> boards = new List<Board>();
+        DataTable dt = ExecuteQuery(query);
+        List<Board> boardList = new List<Board>();
         foreach (DataRow row in dt.Rows)
         {
-            boards.Add(new Board
+            boardList.Add(new Board
             {
                 boardNo = Convert.ToInt32(row["boardNo"]),
                 title = row["title"].ToString(),
@@ -99,13 +99,13 @@ public class Database
                 regDate = Convert.ToDateTime(row["regDate"])
             });
         }
-        return boards;
+        return boardList;
     }
 
-    public Board getBoardByNo(int boardNo)
+    public Board GetBoardByNo(int boardNo)
     {
         string query = $"SELECT * FROM c_board_test WHERE BoardNo = {boardNo}";
-        DataTable dt = executeQuery(query);
+        DataTable dt = ExecuteQuery(query);
         if (dt.Rows.Count > 0)
         {
             DataRow row = dt.Rows[0];
@@ -123,17 +123,16 @@ public class Database
         }
     }
 
-
-    public void updateBoard(Board board)
+    public void UpdateBoard(Board board)
     {
         string query = $"UPDATE c_board_test SET Title = '{board.title}', Content = '{board.content}' WHERE boardNo = {board.boardNo}";
-        executeNonQuery(query);
+        ExecuteNonQuery(query);
     }
 
-    public void deleteBoard(int boardNo)
+    public void DeleteBoard(int boardNo)
     {
         string query = $"DELETE FROM c_board_test WHERE boardNo = {boardNo}";
-        executeNonQuery(query);
+        ExecuteNonQuery(query);
     }
 
 }
