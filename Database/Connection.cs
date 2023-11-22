@@ -4,15 +4,15 @@ public class Connection
 {
 	private OracleConnection conn;
 	private string strCon
-        = @"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))
+              = @"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))
 		              (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE))); User Id=c##hr2; Password=1234;";
 
-    public OracleConnection getConnection()
+    public OracleConnection GetConnection()
     {
         return conn;
     }
 
-    public void openConnection()
+    public void OpenConnection()
     {
         try
         {
@@ -28,7 +28,7 @@ public class Connection
         }
     }
 
-   public void closeConnection()
+   public void CloseConnection()
     {
         if (conn != null)
         {
