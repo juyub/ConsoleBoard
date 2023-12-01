@@ -1,8 +1,8 @@
-public class PostService
+public class BoardService
 {
     private Database _database;
 
-    public PostService(Database database)
+    public BoardService(Database database)
     {
         _database = database;
     }
