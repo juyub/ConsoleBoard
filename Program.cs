@@ -7,8 +7,8 @@ class Program
     {
         Connection connection = new Connection();
         Database database = new Database(connection);
-        PostService postService = new PostService(database);
-        View view = new View(postService);
+        BoardService boardService = new BoardService(database);
+        View view = new View(boardService);
 
         while (true)
         {
