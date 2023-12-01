@@ -1,15 +1,15 @@
 class View
 {
-    private PostService postService;
+    private BoardService boardService;
 
-    public View(PostService postService)
+    public View(BoardService boardService)
     {
-        this.postService = postService;
+        this.boardService = boardService;
     }
     
     public void BoardList()
     {
-        var boardList = postService.GetBoardList();
+        var boardList = boardService.GetBoardList();
 
         if (boardList.Count == 0)
         {
@@ -35,14 +35,14 @@ class View
         Console.Write("Enter board content: ");
         newBoard.content = Console.ReadLine();
 
-        postService.CreateBoard(newBoard);
+        boardService.CreateBoard(newBoard);
 
         Console.WriteLine("Board created successfully\n");
     }
 
     public void GetBoard(int boardNo)
     {
-        Board board = postService.GetBoard(boardNo);
+        Board board = boardService.GetBoard(boardNo);
         if (board == null)
         {
             Console.WriteLine("Board not found with the given BoardNo.");
@@ -76,7 +76,7 @@ class View
 
     public void UpdateBoard(int boardNo)
     {
-        Board updatedBoard = postService.GetBoard(boardNo);
+        Board updatedBoard = boardService.GetBoard(boardNo);
 
         Console.Write("Enter new title: ");
         string newTitle = Console.ReadLine();
@@ -92,7 +92,7 @@ class View
             updatedBoard.content = newContent;
         }
 
-        postService.UpdateBoard(updatedBoard);
+        boardService.UpdateBoard(updatedBoard);
         Console.WriteLine("Board updated successfully\n");
 
         GetBoard(boardNo);
@@ -107,7 +107,7 @@ class View
         switch (option)
         {
             case 1:
-                postService.DeleteBoard(boardNo);
+                boardService.DeleteBoard(boardNo);
                 Console.WriteLine("Board deleted successfully\n");
                 break;
             default:
